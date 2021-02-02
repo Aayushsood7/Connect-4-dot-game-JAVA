@@ -276,4 +276,105 @@ public class PlayBoard {
         System.out.println();
     }
 
+    /**
+     * function to check for matches in all directions for a specific disk
+     * @param column column index
+     * @param row row index
+     * @return boolean value for the matching having matches
+     */
+    public boolean checkAllMatches(int column, int row) {
+        int horizontal_matches = 0;
+        int vertical_matches = 0;
+        int forward_diagonal_matches = 0;
+        int backward_diagonal_matches = 0;
+
+        // horizontal matches
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column + i, row)) {
+                horizontal_matches++;
+            } else break;
+        }
+
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column - i, row)) {
+                horizontal_matches++;
+            } else break;
+        }
+
+        // vertical matches
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column, row + i)) {
+                vertical_matches++;
+            } else break;
+        }
+
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column, row - i)) {
+                vertical_matches++;
+            } else break;
+        }
+
+        // backward diagonal matches ( \ )
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column + i, row - i)) {
+                backward_diagonal_matches++;
+            } else break;
+        }
+
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column - i, row + i)) {
+                backward_diagonal_matches++;
+            } else break;
+        }
+
+        // forward diagonal matches ( / )
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column + i, row + i)) {
+                forward_diagonal_matches++;
+            } else break;
+        }
+
+        for (int i = 1; i < WIN_DISK_COUNT; i++) {
+            if (matchingCounters(column, row, column - i, row - i)) {
+                forward_diagonal_matches++;
+            } else break;
+        }
+
+        return horizontal_matches >= WIN_DISK_COUNT - 1
+                || vertical_matches >= WIN_DISK_COUNT - 1
+                || forward_diagonal_matches >= WIN_DISK_COUNT - 1
+                || backward_diagonal_matches >= WIN_DISK_COUNT - 1;
+    }
+
+    /**
+     *
+     * @param columnA column index for first disk
+     * @param rowA row index for first disk
+     * @param columnB column index for last disk
+     * @param rowB row index for last disk
+     * @return return boolean for matching counter
+     */
+    private boolean matchingCounters(int columnA, int rowA, int columnB, int rowB) {
+        // return false if either set of coordinates falls out of bounds
+        if (columnA < 0 || columnA >= mPlayBoardCols
+                || rowA < 0 || rowA >= mPlayBoardRows
+                || columnB < 0 || columnB >= mPlayBoardCols
+                || rowB < 0 || rowB >= mPlayBoardRows) {
+            return false;
+        }
+        return !(mPlayBoard[rowA][columnA] == 0 || mPlayBoard[rowB][columnB] == 0) && mPlayBoard[rowA][columnA] == mPlayBoard[rowB][columnB];
+    }
+
+    /**
+     *  function to undo a disk placed in the playboard
+     * @param column column index for removing a disk placed
+     */
+    public void undoMove(int column) {
+        if (mFreeCells[column] < mPlayBoardRows) {
+            mFreeCells[column]++;
+            mPlayBoard[mFreeCells[column] - 1][column] = 0;
+
+        }
+    }
+
 }
