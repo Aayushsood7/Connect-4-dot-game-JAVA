@@ -13,8 +13,8 @@ public class Game {
     private final PlayBoard mPlayBoard = new PlayBoard(playBoard,mFreeCells);
     private ComputerizedPlayer compPlayer;
     private PlayBoard.Outcome outcome = PlayBoard.Outcome.NOTHING;
-    private static Game game = new Game();
-    private Scanner scanner = new Scanner(System.in);
+    private static final Game game = new Game();
+    private final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         game.startGame();
@@ -24,6 +24,7 @@ public class Game {
      * function to reset the play board and start the game
      */
     public void startGame(){
+
         // initialize the game
         game.initializeGame();
 
