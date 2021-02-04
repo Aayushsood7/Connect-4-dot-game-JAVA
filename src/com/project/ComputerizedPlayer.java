@@ -16,6 +16,10 @@ public class ComputerizedPlayer {
         this.maxDepth = maxDepth;
     }
 
+    public int getDifficulty() {
+        return maxDepth;
+    }
+
     /**
      * run computerized move
      * @return column to put the disk in the playboard

@@ -7,7 +7,7 @@ public class Game {
     public static final int COLUMNS = 7;
     public static final int ROWS = 6;
 
-    private final int[][] playBoard = new int[ROWS][COLUMNS];
+    private int[][] playBoard = new int[ROWS][COLUMNS];
     private final int[] mFreeCells = new int[COLUMNS];
 
     private final PlayBoard mPlayBoard = new PlayBoard(playBoard,mFreeCells);
@@ -164,4 +164,11 @@ public class Game {
         player.setDifficulty(7);
     }
 
+    public PlayBoard getPlayBoard() {
+        return mPlayBoard;
+    }
+
+    public void setPlayBoard(int[][] playBoard) {
+        this.playBoard = playBoard;
+    }
 }
