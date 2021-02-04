@@ -255,21 +255,36 @@ public class PlayBoard {
     }
 
 
-
+    /**
+     * function to display play board
+     */
     public void displayPlayBoard() {
         System.out.println();
-        for (int i = 0; i < mPlayBoardRows; ++i) {
-            for (int j = 0; j < mPlayBoardCols; ++j) {
-                if (mPlayBoard[i][j] == 0){
-                    // if the current place is empty
-                    System.out.print("- ");
-                }else if (mPlayBoard[i][j] == 1){
-                    // if the disk placed is of user
-                    System.out.print("P ");
-                }else {
-                    // if the disk placed is of computer
-                    System.out.print("C ");
+        for (int i = 0; i < (mPlayBoardRows*2)+1; ++i) {
+            for (int j = 0; j < (mPlayBoardCols*2)+1; ++j) {
+                if (i%2 ==0 && j%2==0){
+                    // both i and j are even
+                    System.out.print("| ");
+                }else if (i%2 ==0 && j%2!=0){
+                    // i is even and j is odd
+                    System.out.print("-- ");
+                }else if(i%2 !=0 && j%2==0){
+                    // i is odd and j is even
+                    System.out.print("| ");
+                }else{
+                    // both are odd values
+                    if (mPlayBoard[i/2][j/2] == 0){
+                        // if the current place is empty
+                        System.out.print("** ");
+                    }else if (mPlayBoard[i/2][j/2] == 1){
+                        // if the disk placed is of user
+                        System.out.print(" P ");
+                    }else {
+                        // if the disk placed is of computer
+                        System.out.print(" C ");
+                    }
                 }
+
             }
             System.out.println();
         }
