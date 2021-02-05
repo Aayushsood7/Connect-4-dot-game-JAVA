@@ -10,7 +10,7 @@ public class Game {
     private int[][] playBoard = new int[ROWS][COLUMNS];
     private final int[] mFreeCells = new int[COLUMNS];
 
-    private final PlayBoard mPlayBoard = new PlayBoard(playBoard,mFreeCells);
+    private final PlayBoard mPlayBoard = new PlayBoard(playBoard, mFreeCells);
     private ComputerizedPlayer compPlayer;
     private PlayBoard.Outcome outcome = PlayBoard.Outcome.NOTHING;
     private static final Game game = new Game();
@@ -23,7 +23,7 @@ public class Game {
     /**
      * function to reset the play board and start the game
      */
-    public void startGame(){
+    public void startGame() {
 
         // initialize the game
         game.initializeGame();
@@ -37,61 +37,58 @@ public class Game {
         // display the matrix
         game.mPlayBoard.displayPlayBoard();
 
-        int POSSIBLE_MOVES = 6*7;
+        int POSSIBLE_MOVES = 6 * 7;
 
         // while loop for executing the game till all possible moves
-        while(--POSSIBLE_MOVES>0){
+        while (--POSSIBLE_MOVES > 0) {
 
+            System.out.println("Enter Column number to place a disk::");
             // get the player input
             int column = game.getPlayerInput();
-            if (game.isPlayerInputValid(column)){
-                // the player input is valid and can proceed further
-                game.mPlayBoard.placeDisk(column,Player.PLAYER1);
+            // the player input is valid and can proceed further
+            game.mPlayBoard.placeDisk(column, Player.PLAYER1);
+
+            // checking if the user has won the match
+            game.outcome = game.mPlayBoard.checkWin();
+
+            // display the matrix
+            game.mPlayBoard.displayPlayBoard();
+
+            if (game.outcome == PlayBoard.Outcome.NOTHING) {
+                // then match should continue
+
+                // placing the computer move
+                int compColumn = game.compPlayer.getColumn();
+                game.mPlayBoard.placeDisk(compColumn, Player.COMPUTERIZED_PLAYER);
+                System.out.println("Computer has placed disk at row " + game.mPlayBoard.getFreeCells()[compColumn] + " ,column " + (compColumn));
+
+                // displaying the play board after computer has placed the move
+                game.mPlayBoard.displayPlayBoard();
 
                 // checking if the user has won the match
                 game.outcome = game.mPlayBoard.checkWin();
 
-                // display the matrix
-                game.mPlayBoard.displayPlayBoard();
-
-                if (game.outcome == PlayBoard.Outcome.NOTHING){
-                    // then match should continue
-
-                    // placing the computer move
-                    int compColumn = game.compPlayer.getColumn();
-                    game.mPlayBoard.placeDisk(compColumn,Player.COMPUTERIZED_PLAYER);
-                    System.out.println("Computer has placed disk at row, "+ game.mPlayBoard.getFreeCells()[compColumn]+" column "+(compColumn));
-
-                    // displaying the play board after computer has placed the move
-                    game.mPlayBoard.displayPlayBoard();
-
-                    // checking if the user has won the match
-                    game.outcome = game.mPlayBoard.checkWin();
-
-                    // checking if the game should continue as no one has one the game and still moves are left
-                    if (game.outcome == PlayBoard.Outcome.NOTHING){
-                        continue;
-                    }
-                    // checking if all the moves are out and nobody has won the game and asking the user if he/she want to play the game again
-                    else if (game.outcome == PlayBoard.Outcome.DRAW){
-                        System.out.println("Match Drawn!!!");
-                        askReplayPrompt();
-                        break;
-                    }
-                    // checking if computer has won the game and asking the user if he/she want to play the game again
-                    else if (game.outcome == PlayBoard.Outcome.COMPUTER_WINS){
-                        System.out.println("Computer Wins!!!");
-                        askReplayPrompt();
-                        break;
-                    }
+                // checking if the game should continue as no one has one the game and still moves are left
+                if (game.outcome == PlayBoard.Outcome.NOTHING) {
+                    continue;
                 }
-                // checking if player has won the game and asking the user if he/she want to play the game again
-                else if (game.outcome == PlayBoard.Outcome.PLAYER_WINS){
-                    System.out.println("Player 1 Wins!!!");
+                // checking if all the moves are out and nobody has won the game and asking the user if he/she want to play the game again
+                else if (game.outcome == PlayBoard.Outcome.DRAW) {
+                    System.out.println("Match Drawn!!!");
+                    askReplayPrompt();
                     break;
                 }
-            }else{
-                System.exit(1);
+                // checking if computer has won the game and asking the user if he/she want to play the game again
+                else if (game.outcome == PlayBoard.Outcome.COMPUTER_WINS) {
+                    System.out.println("Computer Wins!!!");
+                    askReplayPrompt();
+                    break;
+                }
+            }
+            // checking if player has won the game and asking the user if he/she want to play the game again
+            else if (game.outcome == PlayBoard.Outcome.PLAYER_WINS) {
+                System.out.println("Player 1 Wins!!!");
+                break;
             }
 
         }
@@ -105,32 +102,44 @@ public class Game {
     private void askReplayPrompt() {
         System.out.println("Want to play a match again (y/n)");
         char replayChar = scanner.next().charAt(0);
-        if (replayChar == 'y' || replayChar == 'Y'){
+        if (replayChar == 'y' || replayChar == 'Y') {
             game.initializeGame();
             game.startGame();
-        }else{
+        } else {
             System.exit(1);
         }
     }
 
     /**
      * function to get the player input
+     *
      * @return player input
      */
-    public int getPlayerInput(){
-        System.out.println("Player Enter column no for placing disk::");
-        return scanner.nextInt();
+    public int getPlayerInput() {
+        while (true) {
+            int input = scanner.nextInt();
+            if (input < 0 || input > 6) {
+                System.out.println("Enter a valid column number!!");
+            } else {
+                if (game.mPlayBoard.getFreeCells()[input] > 0) {
+                    return input;
+                } else {
+                    System.out.println("Entered column is filled please select different column!!");
+                }
+            }
+        }
     }
 
     /**
      * function to check if the user input is valid or not
+     *
      * @param input column number of the matrix to be placed
      * @return boolean value specifying that if input is valid or not
      */
-    public boolean isPlayerInputValid(int input){
-        if (input >= 0 && input <=6){
+    public boolean isPlayerInputValid(int input) {
+        if (input >= 0 && input <= 6) {
             return true;
-        }else {
+        } else {
             System.out.println("Invalid Column Please Enter Column Again");
             return false;
         }
@@ -139,10 +148,10 @@ public class Game {
     /**
      * function to re-initialize the game by resetting the play board and restarting the game
      */
-    public void initializeGame(){
+    public void initializeGame() {
         outcome = PlayBoard.Outcome.NOTHING;
-        for (int j=0;j<COLUMNS;++j){
-            for (int i=0;i<ROWS;++i){
+        for (int j = 0; j < COLUMNS; ++j) {
+            for (int i = 0; i < ROWS; ++i) {
                 playBoard[i][j] = 0;
             }
             mFreeCells[j] = ROWS;
@@ -151,18 +160,20 @@ public class Game {
 
     /**
      * function to get the instance of the computerized player
+     *
      * @param playBoard play board instance
      * @return computerized player instance
      */
-    public ComputerizedPlayer getCompPlayer(PlayBoard playBoard){
+    public ComputerizedPlayer getCompPlayer(PlayBoard playBoard) {
         return new ComputerizedPlayer(playBoard);
     }
 
     /**
      * function to set the difficulty of the game by setting the depth of the minmax algorithm
+     *
      * @param player computerized player instance
      */
-    public void setDifficultyForComputerPlayer(ComputerizedPlayer player){
+    public void setDifficultyForComputerPlayer(ComputerizedPlayer player) {
         player.setDifficulty(7);
     }
 
