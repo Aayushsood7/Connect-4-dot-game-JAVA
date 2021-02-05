@@ -12,6 +12,7 @@ public class PlayBoard {
         NOTHING, DRAW, PLAYER_WINS, COMPUTER_WINS;
     }
 
+
     // boolean to track the whether the game is drawn
     private boolean mGameDraw;
 
@@ -48,6 +49,10 @@ public class PlayBoard {
         mPlayBoardRows = playBoard.length;
         mPlayBoardCols = playBoard[0].length;
         mFreeCells = free;
+    }
+
+    public int[] getFreeCells() {
+        return mFreeCells;
     }
 
     /**
@@ -92,6 +97,10 @@ public class PlayBoard {
                     mGameDraw = false;
                 }
 
+                if (!((j+1)>=0 && (j+1)<mPlayBoardCols && (j+2)>=0 && (j+2)<mPlayBoardCols && (j+3)>=0 && (j+3)<mPlayBoardCols)){
+                    return false;
+                }
+
                 // if the matrix value at i,j is something then check for the 4 consecutive disks
                 if (mStateValue != 0 && mPlayBoard[i][j + 1] == mStateValue && mPlayBoard[i][j + 2] == mStateValue && mPlayBoard[i][j + 3] == mStateValue) {
                     // if its true that means the player has won the game by making consecutive 4 disks horizontally
@@ -129,6 +138,10 @@ public class PlayBoard {
                 if (mStateValue == 0) {
                     // it means that no disc is placed
                     mGameDraw = false;
+                }
+
+                if (!((i+1)>=0 && (i+1)<mPlayBoardRows && (i+2)>=0 && (i+2)<mPlayBoardRows && (i+3)>=0 && (i+3)<mPlayBoardRows)){
+                    return false;
                 }
 
                 // if the matrix value at i,j is something then check for the 4 consecutive disks column wise
@@ -169,6 +182,11 @@ public class PlayBoard {
                 if (mStateValue == 0) {
                     // it means that no disc is placed
                     mGameDraw = false;
+                }
+
+                // if the some indexes of diagonal are out of range return false
+                if (!((i-1)>=0 && (i-1)<mPlayBoardRows && (j+1)>=0 && (j+1)<mPlayBoardCols && (i-2)>=0 && (i-2)<mPlayBoardRows && (j+2)>=0 && (j+2)<mPlayBoardCols && (i-3)>=0 && (i-3)<mPlayBoardRows && (j+3)>=0 && (j+3)<mPlayBoardCols )){
+                    return false;
                 }
 
                 // if the matrix value at i,j is something then check for the 4 consecutive disks
@@ -237,10 +255,10 @@ public class PlayBoard {
      * @param player - the player whose disk is to be placed
      */
     public void placeDisk(int column, int player) {
-        if (mFreeCells[column] > 0) {
-            mPlayBoard[mFreeCells[column] - 1][column] = player;
-            mFreeCells[column]--;
-        }
+         if (mFreeCells[column] > 0) {
+             mPlayBoard[mFreeCells[column] - 1][column] = player;
+             mFreeCells[column]--;
+         }
     }
 
 
@@ -259,9 +277,21 @@ public class PlayBoard {
      * function to display play board
      */
     public void displayPlayBoard() {
+
         System.out.println();
+        int columnLabel = 0;
+        System.out.println("| C/R|  0 |  1 |  2 |  3 |  4 |  5 |  6 |");
         for (int i = 0; i < (mPlayBoardRows*2)+1; ++i) {
             for (int j = 0; j < (mPlayBoardCols*2)+1; ++j) {
+                if (j==0){
+                    if (columnLabel%2!=0){
+                        System.out.print("|  " + columnLabel/2+" ");
+                    }
+                    else {
+                        System.out.print("| -- ");
+                    }
+                    columnLabel++;
+                }
                 if (i%2 ==0 && j%2==0){
                     // both i and j are even
                     System.out.print("| ");
@@ -271,7 +301,7 @@ public class PlayBoard {
                 }else if(i%2 !=0 && j%2==0){
                     // i is odd and j is even
                     System.out.print("| ");
-                }else{
+                } else{
                     // both are odd values
                     if (mPlayBoard[i/2][j/2] == 0){
                         // if the current place is empty

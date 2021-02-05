@@ -58,7 +58,9 @@ public class Game {
                     // then match should continue
 
                     // placing the computer move
-                    game.mPlayBoard.placeDisk(game.compPlayer.getColumn(),Player.COMPUTERIZED_PLAYER);
+                    int compColumn = game.compPlayer.getColumn();
+                    game.mPlayBoard.placeDisk(compColumn,Player.COMPUTERIZED_PLAYER);
+                    System.out.println("Computer has placed disk at row, "+ game.mPlayBoard.getFreeCells()[compColumn]+" column "+(compColumn));
 
                     // displaying the play board after computer has placed the move
                     game.mPlayBoard.displayPlayBoard();
