@@ -42,7 +42,6 @@ public class Game {
         // while loop for executing the game till all possible moves
         while (--POSSIBLE_MOVES > 0) {
 
-            System.out.println("Enter Column number to place a disk::");
             // get the player input
             int column = game.getPlayerInput();
             // the player input is valid and can proceed further
@@ -117,6 +116,7 @@ public class Game {
      */
     public int getPlayerInput() {
         while (true) {
+            System.out.println("Enter Column number to place a disk::");
             int input = scanner.nextInt();
             if (input < 0 || input > 6) {
                 System.out.println("Enter a valid column number!!");
@@ -149,6 +149,9 @@ public class Game {
      * function to re-initialize the game by resetting the play board and restarting the game
      */
     public void initializeGame() {
+        System.out.println("******  Connect 4 Dot Game ******");
+        System.out.println("Instructions::\n1.Enter the column number to place a disk on the playboard\n2.P Disk represents your disk, C disk represents computerized player disk and ** represents empty slots\n3.One who makes 4 consecutive disk in any direction wins the game");
+        System.out.println("Made by Ayush Sood");
         outcome = PlayBoard.Outcome.NOTHING;
         for (int j = 0; j < COLUMNS; ++j) {
             for (int i = 0; i < ROWS; ++i) {
