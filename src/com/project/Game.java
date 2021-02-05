@@ -116,16 +116,22 @@ public class Game {
      */
     public int getPlayerInput() {
         while (true) {
-            System.out.println("Enter Column number to place a disk::");
-            int input = scanner.nextInt();
-            if (input < 0 || input > 6) {
-                System.out.println("Enter a valid column number!!");
-            } else {
-                if (game.mPlayBoard.getFreeCells()[input] > 0) {
-                    return input;
+
+            try {
+                System.out.println("Enter Column number to place a disk::");
+                int input = scanner.nextInt();
+                if (input < 0 || input > 6) {
+                    System.out.println("Enter a valid column number!!");
                 } else {
-                    System.out.println("Entered column is filled please select different column!!");
+                    if (game.mPlayBoard.getFreeCells()[input] > 0) {
+                        return input;
+                    } else {
+                        System.out.println("Entered column is filled please select different column!!");
+                    }
                 }
+            }catch (Exception e){
+                System.out.println("Entered input is not a number. Please enter number again!!");
+                scanner.nextLine();
             }
         }
     }
