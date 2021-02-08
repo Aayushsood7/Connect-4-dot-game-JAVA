@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
 public class GameTest {
 
     /**
@@ -60,13 +58,13 @@ public class GameTest {
         int[] free = {6,6,6,6,6,6,6};
         int[][] playBoard = {{0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0},
-                {0,0,0,0,0,2,0},
+                {0,1,0,0,0,2,0},
                 {0,1,0,0,2,1,0},
                 {0,1,0,2,1,1,0},
                 {0,1,2,1,1,1,0}};
 
         PlayBoard playBoardObj = new PlayBoard(playBoard,free);
-        PlayBoard.Outcome expectedOutcome = PlayBoard.Outcome.COMPUTER_WINS;
+        PlayBoard.Outcome expectedOutcome = PlayBoard.Outcome.PLAYER_WINS;
 
         PlayBoard.Outcome actualOutcome = playBoardObj.checkWin();
 

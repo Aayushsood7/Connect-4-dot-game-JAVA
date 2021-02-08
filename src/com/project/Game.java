@@ -137,27 +137,12 @@ public class Game {
     }
 
     /**
-     * function to check if the user input is valid or not
-     *
-     * @param input column number of the matrix to be placed
-     * @return boolean value specifying that if input is valid or not
-     */
-    public boolean isPlayerInputValid(int input) {
-        if (input >= 0 && input <= 6) {
-            return true;
-        } else {
-            System.out.println("Invalid Column Please Enter Column Again");
-            return false;
-        }
-    }
-
-    /**
      * function to re-initialize the game by resetting the play board and restarting the game
      */
     public void initializeGame() {
         System.out.println("******  Connect 4 Dot Game ******");
         System.out.println("Instructions::\n1.Enter the column number to place a disk on the playboard\n2.P Disk represents your disk, C disk represents computerized player disk and ** represents empty slots\n3.One who makes 4 consecutive disk in any direction wins the game");
-        System.out.println("Made by Ayush Sood");
+        System.out.println("Made by Aayush Sood");
         outcome = PlayBoard.Outcome.NOTHING;
         for (int j = 0; j < COLUMNS; ++j) {
             for (int i = 0; i < ROWS; ++i) {
